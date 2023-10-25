@@ -1,0 +1,16 @@
+{
+  "projects_json": [
+    {
+      "title": "URL to PDF Uploader",
+      "description": "Converts a URL page to a PDF then uploads to PDF",
+      "icon": "file-pdf",
+      "link": "url-to-dam"
+    },
+    {
+      "title": "Image-Text Reader",
+      "description": "Scans an image for any texts",
+      "icon": "image",
+      "link": "image-text-reader"
+    }
+  ]
+}
