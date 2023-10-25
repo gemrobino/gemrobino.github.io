@@ -1,8 +1,8 @@
 {
   "projects_json": [
     {
-      "title": "URL to DAM Uploader",
-      "description": "Converts a URL page to a PDF then uploads to DAM",
+      "title": "URL to PDF Uploader",
+      "description": "Converts a URL page to a PDF then uploads to PDF",
       "icon": "file-pdf",
       "link": "url-to-dam"
     },
