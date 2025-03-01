@@ -1,0 +1,845 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+    <link rel="icon" type="image/svg+xml" href="./images/favicon.svg">
+
+    <link rel="stylesheet" href="./lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="./css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="./css/style.css" asp-append-version="true" />
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;800&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href="./css/layout.css" asp-append-version="true" />
+    <link rel="stylesheet" href="./css/darkmode.css" asp-append-version="true" />
+    <link rel="stylesheet" href="./dashboard.css" asp-append-version="true" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./js/webrtc/notificationchannel.js"></script>
+    <script src="./js/webrtc/notification.js"></script>
+    <script src="./js/webrtc/constants.js"></script>
+    <script src="./js/webrtc/util.js"></script>
+    <script src="./js/emsentry-utilities.js"></script>
+    <script src="./js/mapTileManager.js"></script>
+
+
+    <!-- Load jQuery FIRST -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- DevExtreme CSS -->
+    <link rel="stylesheet" href="https://cdn3.devexpress.com/jslib/23.1/css/dx.light.css">
+
+    <!-- DevExtreme JS (Ensure it's after jQuery) -->
+    <script type="text/javascript" src="https://cdn3.devexpress.com/jslib/24.2.5/js/dx.all.js"></script>
+    <!-- <script type="text/javascript" src="https://cdn3.devexpress.com/jslib/24.2.5/js/dx.web.js"></script> -->
+    <!-- <script type="text/javascript" src="https://cdn3.devexpress.com/jslib/24.2.5/js/dx.viz.js"></script> -->
+
+    <script>
+        var msg = '@(TempData["ToastMessage"] ?? "")'; // Render the TempData value into JavaScript
+        document.addEventListener("DOMContentLoaded", function () {
+            if (!isNullOrEmpty(msg)) { // Check if the message is not empty
+                DevExpress.ui.notify(msg, 'info', 2000);
+            }
+        });
+        document.addEventListener("DOMContentLoaded", function () {
+            if (sessionStorage.getItem('darkmodeEnabled') === 'true') {
+                toggleDarkMode()
+            }
+        });
+
+        function toggleDarkMode() {
+            let isDarkModeEnabled = true;
+
+            var htmlBody = document.body;
+            if (htmlBody.classList.contains('dark-mode')) {
+                isDarkModeEnabled = false;
+            }
+            sessionStorage.setItem('darkmodeEnabled', isDarkModeEnabled);
+            htmlBody.classList.toggle("dark-mode");
+
+            var jumbotrons = document.querySelectorAll('.jumbotron');
+            jumbotrons.forEach(function (jumbotron) {
+                jumbotron.classList.toggle('dark-mode-container');
+            });
+            var titles = document.querySelectorAll('.card-title');
+            titles.forEach(function (title) {
+               title.classList.toggle('dark-title');
+            });
+            var carousels = document.querySelectorAll('.carousel-dark');
+            carousels.forEach(function (title) {
+                title.classList.toggle('carousel-dark');
+            });
+            var toggleIcon = document.getElementById('toggleDarkModeIcon');
+            toggleIcon.classList.toggle("bi-sun");
+        }
+    </script>
+    <style>
+        .sidebar-links {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+        .navbar {
+            padding: 0;
+            background: var( --palette-color7);
+        }
+
+        .hidden-navbar {
+            display: none !important;
+        }
+
+        .brand-logo {
+            background: var(--tile-body-color);
+            border-radius: 5px;
+            padding: 0.2rem;
+            margin-left: 0.2rem;
+        }
+
+        .popup-form-notification {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            max-width: 400px;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .form-header {
+            background-color: var(--primary-btn-color);
+            color: white;
+            padding: 15px;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .form-header h3 {
+            margin: 0;
+            font-size: 1.2rem;
+        }
+
+        .close-btn {
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        #send-notification-form {
+            padding: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            text-align: left;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.375rem 0.75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #495057;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+
+        .btn-notification {
+            width: 100%;
+            background-color: var(--primary-btn-color) !important;
+            color: #fff;
+        }
+
+        .select2-container {
+            width: 100% !important;
+        }
+        .footer-border {
+            border-top: 2px var(--palette-color7) solid;
+        }
+        .footer-icon {
+            color: var(--palette-color7);
+            margin-left: 1rem;
+        }
+    </style>
+
+</head>
+
+<body>
+    <header>
+        <nav id="mainTopNavbar" class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark mb-3 fixed-top">
+            <div class="container-fluid p-0">
+                <div style="display:flex">
+                    <button id="navIcon-toggleSidebar" class="txt--tile btn collapsedSideBar bg--color7" onclick="toggleSideBar()">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index" aria-label="Home">
+                    </a>
+                </div>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-end">
+                    <ul class="navbar-nav">
+                        <button class="btn" onclick="toggleDarkMode()"><i id="toggleDarkModeIcon" class="bi bi-moon text-white"></i></button>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-light d-flex align-items-center" href="#" id="userMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span>Help</span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
+                                <li>
+                                    <a id="navIcon-Help" class="dropdown-item" asp-area="" asp-controller="HelpPage" asp-action="Index">
+                                        <i class="bi bi-question-circle-fill me-2"></i> View Help & FAQs
+                                    </a>
+                                </li>
+                                <hr class="dropdown-divider"/>
+                                <li>
+                                    <a id="navIcon-About" class="dropdown-item" asp-area="" asp-controller="About" asp-action="Index">
+                                        <i class="bi bi-info-circle-fill me-2"></i> About This page
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <partial name="_LoginPartial" />
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div id="notification-form" class="popup-form-notification" style="display: none;">
+        <div class="form-header">
+            <h3>Send Notification</h3>
+            <span class="close-btn">&times;</span>
+        </div>
+        <form id="send-notification-form">
+            <div class="form-group">
+                <label for="notification-title">Title:</label>
+                <textarea id="notification-title" rows="1" class="form-control" placeholder="Enter title" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="notification-message">Message:</label>
+                <textarea id="notification-message" class="form-control" rows="2" placeholder="Enter message" required></textarea>
+            </div>
+            <input type="hidden" id="hidden-device-id-notification" name="deviceId">
+            <input type="hidden" id="hidden-group-id-notification" name="groupId">
+            <button type="submit" class="btn btn-notification">Send Notification</button>
+        </form>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var closeBtn = document.querySelector('.close-btn');
+            var form = document.getElementById('notification-form');
+
+            closeBtn.addEventListener('click', closeForm);
+            form.addEventListener('click', function (event) {
+                if (event.target == this) {
+                    closeForm();
+                }
+            });
+
+            function closeForm() {
+                form.style.display = 'none';
+            }
+
+            document.getElementById('send-notification-form').addEventListener('submit', function (e) {
+                e.preventDefault();
+                var deviceId = document.getElementById('hidden-device-id-notification').value;
+                var groupId = document.getElementById('hidden-group-id-notification').value;
+                var title = document.getElementById('notification-title').value;
+                var message = document.getElementById('notification-message').value;
+
+                fetch('/Message/SendMessage', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        deviceIds: deviceId ? [deviceId] : [],
+                        groupIds: groupId ? [groupId] : [],
+                        title: title,
+                        message: message
+                    })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            Swal.fire({
+                                title: "Success!",
+                                text: "Notification sent successfully",
+                                icon: "success",
+                                confirmButtonColor: "#3085d6",
+                                timer: 3000,
+                                timerProgressBar: true,
+                                showConfirmButton: false
+                            });
+                            closeForm();
+                        } else {
+                            Swal.fire({
+                                title: "Error",
+                                text: "Error sending notification",
+                                icon: "error",
+                                confirmButtonColor: "#3085d6",
+                                timer: 3000,
+                                timerProgressBar: true,
+                                showConfirmButton: false
+                            });
+                        }
+                    })
+                    .catch((error) => {
+                        alert('Error sending notification');
+                    });
+            });
+        });
+
+    </script>
+    <audio id="alertSound" src="../../audio/gomeetalert.mp3"></audio>
+
+    <div id="divBodyContainer" class="container" style="margin-top: 1rem; width:100%">
+        <partial name="_SideNavPartial" />
+        <main id="mainBodyContainer" role="main" class="mt-4" style="margin-left: 50px">
+
+
+
+
+
+
+<div id="dashboardContainer" class="container">
+    <div class="row" style="margin-top:20px">
+        <div class="tile col-md-2 p-3">
+            <div class="jumbotron summary-visuals-tile" style="padding:0.5rem;height:100%">
+                <a class="summary-visuals" asp-controller="Device" asp-action="Index" asp-route-security="@deviceSecurityPctIsZeroString" style="text-decoration: none">
+                    <i title="View Devices" id="dashboardIcon-Shield" class="bi bi-shield-check txt--primary" style="font-size: 2.7rem;"></i>
+                    <div class="summary-visuals--textbox" style="align-self: center; vertical-align: middle;">
+                        <h4 style="margin: 0px;">100%</h4>
+                        <p style="margin-bottom:0px">Secure</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="tile col-md-2 p-3">
+            <div class="jumbotron summary-visuals-tile" style="padding:0.5rem;">
+                <a class="summary-visuals" asp-controller="Device" asp-action="Index" asp-route-filterBattery="true" >
+                    <i title="View Devices" id="dashboardIcon-Battery" class="bi bi-battery-half txt--danger2" style="font-size: 2.7rem;transform: rotate(-90deg)"></i>
+                    <div class="summary-visuals--textbox" style="align-self: center; vertical-align: middle;">
+                        <h4 style="margin:0px">54</h4>
+                        <p style="margin-bottom:0px">On Low Battery</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="tile col-md-2 p-3">
+            <div class="jumbotron summary-visuals-tile" style="padding:0.5rem;">
+                <a class="summary-visuals" asp-controller="Policy" asp-action="Index" asp-route-kioskMode="true" >
+                    <i title="View Policies" id="dashboardIcon-Lock" class="bi bi-lock txt--tile" style="font-size: 2.7rem"></i>
+                    <div class="summary-visuals--textbox" style="align-self: center; vertical-align: middle;">
+                        <h4 style="margin:0px">12</h4>
+                        <p style="margin-bottom:0px">On Kiosk Mode</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="tile col-md-2"></div>
+        <div class="tile col-md-2"></div>
+        <div class="tile col-md-2" style="text-align:center; align-content:center;">
+            <button id="dashboardBtn-EnrollmentForm" type="button" class="btn btn-lg btn-style--primary" onclick="openEnrollmentForm()">
+                <i class="bi bi-plus" style="font-size: 1.5rem;"></i>ENROLL DEVICES
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="tile col-md-3 p-3">
+            <div class="jumbotron " style="height:100%;height:100%">
+                <h3 class="tile-header" style="margin:0px"><i id="dashboardIcon-Summary" class="bi bi-lightning"></i>&nbspSummary</h3>
+                <hr />
+                <div class="container">
+                    <br />
+                        <span><strong>18</strong> Licenses Remaining</span>
+                    <br />
+                    <hr class="secondary-hr" />
+                    <strong>354</strong> out of <strong>500</strong> device(s) are Active<br>
+                    <strong>26%</strong> of device(s) are Company-Owned<br>
+                    <hr class="secondary-hr" />
+                    <strong>500</strong> device(s) are Secure<br>
+                    <strong>34</strong> device(s) are Non-Compliant<br>
+                    <strong>145</strong> device(s) have enabled Security Overrides<br>
+                    <hr class="secondary-hr" />
+                    <strong>89</strong> of the policies are on Kiosk Mode<br>
+                    <strong>211</strong> of the policies are Password Enforced<br>
+                </div>
+            </div>
+        </div>
+        <div class="tile col-md-5 p-3">
+            <div class="jumbotron " style="height:100%;">
+                <h3 class="tile-header"><i id="dashboardIcon-EventLogsStats" class="bi bi-graph-up"></i>&nbsp;Log Statistics</h3>
+                <hr />
+                <div class="container align-middle">
+                    <div id="line-chart"></div>
+
+                </div>
+            </div>
+        </div>
+        <div class="tile col-md-4 p-3">
+            <div class="jumbotron " style="height:100%;overflow:hidden">
+                <h3 class="tile-header" style="margin:0px"><i id="dashboardIcon-EventLogs" class="bi bi-clock-history"></i>&nbsp;Event Logs</h3>
+                <hr />
+                <div class="container align-middle" style="overflow-wrap: anywhere;">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col" style="text-align:center; font-weight: normal; width:60px">Status</th>
+                                <th scope="col" style="font-weight: normal">Message</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                                <tr>
+                                    <th scope="row" style="text-align:center">
+                                        <span>
+                                            <i class="bi bi-check-circle-fill txt--primary"></i>
+                                        </span>
+                                    </th>
+                                    <td>
+                                        <p>Device dc356 has been successfully enrolled
+                                            <u id="tooltip-@(log.TimeStamp.GetHashCode())"> (details)</u>
+                                        </p>
+                                    </td>
+                                    <td style="text-align:end"><p class="text-body-tertiary time-elapsed" data-timestamp="@log.TimeStamp">4 days ago</p></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" style="text-align:center">
+                                        <span>
+                                            <i class="bi bi-check-circle-fill txt--primary"></i>
+                                        </span>
+                                    </th>
+                                    <td>
+                                        <p>Device a34C has been successfully enrolled
+                                            <u id="tooltip-@(log.TimeStamp.GetHashCode())"> (details)</u>
+                                        </p>
+                                    </td>
+                                    <td style="text-align:end"><p class="text-body-tertiary time-elapsed" data-timestamp="@log.TimeStamp">4 days ago</p></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" style="text-align:center">
+                                        <span>
+                                            <i class="bi bi-x-circle-fill txt--danger2"></i>
+                                        </span>
+                                    </th>
+                                    <td>
+                                        <p>Failed to retrieve device logs
+                                            <u id="tooltip-@(log.TimeStamp.GetHashCode())"> (details)</u>
+                                        </p>
+                                    </td>
+                                    <td style="text-align:end"><p class="text-body-tertiary time-elapsed" data-timestamp="@log.TimeStamp">15 days ago</p></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" style="text-align:center">
+                                        <span>
+                                            <i class="bi bi-check-circle-fill txt--primary"></i>
+                                        </span>
+                                    </th>
+                                    <td>
+                                        <p>Device eb651 has been successfully enrolled
+                                            <u id="tooltip-@(log.TimeStamp.GetHashCode())"> (details)</u>
+                                        </p>
+                                    </td>
+                                    <td style="text-align:end"><p class="text-body-tertiary time-elapsed" data-timestamp="@log.TimeStamp">4 days ago</p></td>
+                                </tr>
+                        </tbody>
+                    </table>
+                    <div style="text-align: center">
+                        <a id="dashboardBtn-ActivtityLogs" class="btn mt-2 btn-style--secondary" style="align-self:center; padding-right: 1.5rem; padding-left: 1.5rem" style="align-self:center;" asp-controller="EventLog" asp-action="Index"> MORE</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="tile col-md-4 p-3">
+            <div class="jumbotron" style="height:100%">
+                <div style="display:flex; justify-content:space-between; align-items:center">
+                    <h3 class="tile-header" style="margin:0px"><i id="dashboardIcon-Devices" class="bi bi-phone"></i>&nbspDevices </h3>
+                    <a id="dashboardBtn-Devices" class="btn mt-2 btn-style--secondary" style="align-self:center;" asp-area="" asp-controller="Device" asp-action="Index"> MANAGE </a>
+                </div>
+                <hr />
+
+
+            <div id="@Model.CarouselId" class="carousel carousel-dark slide" data-bs-ride="false" data-bs-interval="false" data-interval="false">
+                <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <div class="d-block w-100">
+                                    <div style="padding-left:2.5rem;padding-right:2.5rem;">
+                                        <div id="deviceChart1"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="carousel-item ">
+                                <div class="d-block w-100">
+                                    <div style="padding-left:2.5rem;padding-right:2.5rem;">
+                                        <div id="deviceChart2"></div>
+                                    </div>
+                                </div>
+                            </div>
+                </div>
+                    <button id="@Model.CarouselId-CarouselPrev" class="carousel-control-prev" type="button" data-bs-target="#@Model.CarouselId" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button id="@Model.CarouselId-CarouselNext" class="carousel-control-next" type="button" data-bs-target="#@Model.CarouselId" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button> 
+            </div>
+
+
+
+                <div style="text-align: center">
+                </div>
+            </div>
+        </div>
+        <div class="tile col-md-3 p-3">
+            <div class="jumbotron" style="height:100%">
+                <div style="display:flex; justify-content:space-between; align-items:center">
+                    <h3 class="tile-header" style="margin:0px"><i id="dashboardIcon-Groups" class="bi bi-folder2-open"></i> Groups </h3>
+                    <a id="dashboardBtn-Groups" class="btn mt-2 btn-style--secondary" style="align-self:center;" asp-area="" asp-controller="Group" asp-action="Index"> MANAGE </a>
+                </div>
+                <hr />
+                    <div id="groupChart1"></div>
+            </div>
+        </div>
+        <div class="tile col-md-5 p-3">
+            <div class="jumbotron" style="height:100%">
+                <div style="display:flex; justify-content:space-between; align-items:center">
+                    <h3 class="tile-header" style="margin:0px"><i id="dashboardIcon-Policies" class="bi bi-file-text"></i>&nbspPolicies </h3>
+                    <a id="dashboardBtn-Policies" class="btn mt-2 btn-style--secondary" style="align-self:center;" asp-area="" asp-controller="Policy" asp-action="Index"> MANAGE </a>
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="tile col-md-6">                        
+                        <div id="policyChart1"></div>
+                    </div>
+                    <div class="tile col-md-6">
+                        <div style="padding:0px 1.5rem;margin-top:1.5rem">
+                            <p>View Top Policies</p>
+
+                                <div class="policylist-row">
+                                    <a asp-controller="Policy" asp-action="Detail" asp-route-id="@item.GroupName"><p><i class="bi bi-file-text"></i>&nbsp;Marketing</p></a>
+                                    <p>241 device(s)</p>
+                                </div>
+                                <hr class="secondary-hr" style="margin:0.3rem 0" />
+                                <div class="policylist-row">
+                                    <a asp-controller="Policy" asp-action="Detail" asp-route-id="@item.GroupName"><p><i class="bi bi-file-text"></i>&nbsp;Human Resources</p></a>
+                                    <p>112 device(s)</p>
+                                </div>
+                                <hr class="secondary-hr" style="margin:0.3rem 0" />
+                                <div class="policylist-row">
+                                    <a asp-controller="Policy" asp-action="Detail" asp-route-id="@item.GroupName"><p><i class="bi bi-file-text"></i>&nbsp;Engineering</p></a>
+                                    <p>87 device(s)</p>
+                                </div>
+                                <hr class="secondary-hr" style="margin:0.3rem 0" />
+                                <div class="policylist-row">
+                                    <a asp-controller="Policy" asp-action="Detail" asp-route-id="@item.GroupName"><p><i class="bi bi-file-text"></i>&nbsp;Research & Development</p></a>
+                                    <p>107 device(s)</p>
+                                </div>
+                                <hr class="secondary-hr" style="margin:0.3rem 0" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br>
+<br>
+
+<!-- Modal -->
+<div id="enrollmentForm" class="custom-modal">
+    <div class="custom-modal-content">
+        <span class="close-modal-btn" onclick="closeEnrollmentForm()">&times;</span>
+        <h2>Create Enrollment Token</h2>
+        <div class="container">
+            <div class="row">
+                <div class="tile col-md mb-3">
+                    <form asp-controller="EnrollmentToken" asp-action="Create" method="post">
+                        <div class="form-item">
+                            <label for="initialPolicyName">Policy:</label>
+                            <select class="form-select wide-input" name="initialPolicyName" id="initialPolicyName" onchange="onItemSelected(event)">
+                                @foreach (var option in policyOptions)
+                                {
+                                    <option value="@option">@option</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-item" style="margin-top: 8px;">
+                            <label for="expirySeconds">Expiry (seconds):</label>
+                            <input type="number" name="expirySeconds" id="expirySeconds" value="3600" min="3600" />
+                        </div>
+                        <input type="hidden" name="addWifi" id="addWifi" value="">
+                        <div class="form-check mt-3">
+                            <input class="form-check-input form-input" type="checkbox" value="" id="wifiCheck" name="wifiCheck">
+                            <label for="wifiCheck" style="margin:0px">Add Wi-Fi Configuration</label>                            
+                        </div>
+                        <div id="wifiConfigContainer" style="display:none">
+                            <small style="color:var(--tile-fade-50)">* This connection supports only WPA and is not configured for enterprise Wi-Fi.</small>
+                            <div class="row">
+                                <div class="col-md-5 form-item">
+                                    <label for="wifiSsid">SSID</label>
+                                    <input type="text" class="form-control" name="wifiSsid" id="wifiSsid" value="" />
+                                </div>
+                                <div class="col-md-5 form-item">
+                                    <label for="wifiPassword">Password</label>
+                                    <div class="input-group">
+                                        <input type="password" class="form-control" name="wifiPassword" id="wifiPassword" value="" />
+                                        <span id="togglePassword1" class="input-group-text center-icon-span bi bi-eye" onclick="toggleShowPassword ('wifiPassword', 'togglePassword1')">
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 form-item">
+                                    <label for="wifiType">Type</label>
+                                    <input type="text" class="form-control" name="wifiType" id="wifiType" value="WPA" title="WPA 1/2/3" readonly style="background-color: rgba(239, 239, 239, 0.3); color: rgb(84, 84, 84)" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-item" style="margin-top: 8px;">
+                            <label for="minAndroidVersion">Supported Android Version:</label>
+                            <input type="text" name="minAndroidVersion" id="minAndroidVersion" value="Android 9+" disabled />
+                        </div>
+                        <div class="form-item" style="margin-top: 8px;">
+                            <label for="pwdQuality">Password Quality:</label>
+                            <input type="text" name="pwdQuality" id="pwdQuality" value="Numeric" disabled />
+                            <small style="font-style:italic">** The password must contain numeric characters with no repeating (4444) or ordered (1234, 4321, 2468) sequences and at least 4 digits.</small>
+                        </div>
+                        <div class="form-item" style="margin-top: 8px;">
+                            <label for="statsReporting">Stats Reporting:</label>
+                            <input type="text" name="statsReporting" id="statsReporting" value="Enabled" disabled />
+                        </div>
+                        <div class="text-center">
+                            <button id="dashboardBtn-CancelToken" type="button" class="mt-4 btn btn-secondary" data-bs-dismiss="modal" onclick="closeEnrollmentForm()">Cancel</button>
+                            <button id="dashboardBtn-CreateToken" type="submit" class="mt-4 btn" style="background:#0C8282; color:white;">Create Enrollment Token</button>
+                        </div>
+                    </form>
+
+                </div>
+
+                <div class="tile col-md">
+                    <div class="accordion" id="accordionExample">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" onclick="toggleSection('collapseOne')">
+                                <button class="accordion-button" type="button">
+                                    <h4>Android Enrollment</h4>
+                                </button>
+                            </h2>
+                            <div id="collapseOne" class="accordion-collapse" style="border-collapse:collapse">
+                                <div class="accordion-body">
+                                    <p>
+                                        Android Enterprise enrollment is a streamlined process that allows organizations to
+                                        manage and secure Android devices deployed within their enterprise ecosystem. Through
+                                        Android Enterprise, IT administrators can provision devices over-the-air, enforce
+                                        security policies, and configure device settings remotely. This ensures that devices
+                                        are properly configured and compliant with organizational requirements, enhancing
+                                        security and productivity across the enterprise.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <blockquote class="mt-2" style="font-style:italic;">
+                        <b>NOTE: </b>Token creation is associated with a policy. The token here has a minimum lifetime of
+                        one hour (3600 seconds). 's emSentry device support starts from Android Pie (9).
+                    </blockquote>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    #deviceChart1, #deviceChart2, #groupChart1,
+    #policyChart1, #policyChart2, #deviceBarChart1,
+    #deviceBarChart2 {
+        height: 20rem;
+        width: 100%;
+    }
+
+    #line-chart {
+        height: 22rem;
+        width: 100%;
+
+    }
+
+    .table {
+        --bs-table-bg: var(--tile-body-color) !important; 
+    }
+
+    .table th, .table td {
+        border: 0px solid #ddd;
+    }
+
+</style>
+
+
+
+        </main>
+        <iframe src="about:blank" id="alertHeader" name="alertHeader" title="Support Calls" aria-live="polite" style="height:110px; display: none; color-scheme: normal; max-height: 100%; transition: all 0.25s ease 0s; bottom: 8px; right: 24px; width: 400px; background: rgb(255, 255, 255); outline: transparent solid 3px; box-shadow: rgba(0, 0, 0, 0.14) 0px 16px 24px 2px, rgba(0, 0, 0, 0.12) 0px 6px 30px 5px, rgba(0, 0, 0, 0.2) 0px 8px 10px -5px; position: fixed; border: none; border-radius: 8px; z-index: 1000;"></iframe>
+    </div>
+    <br />
+    <br />
+    <footer style="height: 50px; width: 100%; color: var(--palette-color7);position:absolute;bottom:0px">
+        <div class="container d-flex justify-content-between align-items-center footer-border">
+
+            <p class="mb-0">All Rights Reserved.</p>
+            <div class="d-flex align-items-center" style="font-size: 1.2rem;">
+                <a class="nav-link footer-icon" style="" href="#" target=""><i class="bi bi-info-circle-fill"></i></a>
+                <a class="nav-link footer-icon" href="#" target=""><i class="bi bi-facebook"></i></a>
+                <a class="nav-link footer-icon" href="#" target=""><i class="bi bi-instagram"></i></a>
+                <a class="nav-link footer-icon" href="#" target=""><i class="bi bi-youtube"></i></a>
+                <a class="nav-link footer-icon" href="#" target=""><i class="bi bi-linkedin"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toTitleCase(str, replaceUnderscore=false) {
+            if (replaceUnderscore) {
+                str = str.replace(/_/g, ' ')
+            }
+            return str.replace(
+                /\w\S*/g,
+                function (txt) {
+                    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+                }
+            );
+        }
+
+        function capitalizeFirstLetter(str) {
+            if (!str) return str; // Check if the string is empty or undefined
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
+
+        let firstToggleClick = true;
+        document.querySelector('.navbar-toggler').addEventListener('click', function () {
+            if (firstToggleClick) {
+                firstToggleClick = false; // Skip the first click
+                return;
+            }
+            var navbarCollapse = document.querySelector('.navbar-collapse');
+            navbarCollapse.classList.toggle('hidden-navbar');
+        });
+    </script>
+
+
+
+    <script>
+        function createPieChart(containerId) {
+            let chartType = containerId=="policyChart1" ? "" : "doughnut";
+            $("#" + containerId).dxPieChart({
+                type: chartType,
+                palette: ["#76CED9", "#8590F3", "#0A9C9C", "#51E0A0"], // Custom colors
+                innerRadius: 0.7,
+                dataSource: [
+                    { category: "Apple", value: 40 },
+                    { category: "Samsung", value: 30 },
+                    { category: "Huawei", value: 15 },
+                    { category: "Other", value: 5 }
+                ],
+                series: [{
+                    argumentField: "category",
+                    valueField: "value",
+                    label: { visible: false }
+                }],
+                legend: {
+                    visible: true,
+                    horizontalAlignment: "center",
+                    verticalAlignment: "bottom"
+                }
+            });
+        }
+
+        $(document).ready(function() {
+            let chartIds = ["deviceChart2", "groupChart1", "policyChart1"];
+            chartIds.forEach(createPieChart); // Reuse the function for all charts
+
+
+            $("#line-chart").dxChart({
+                title: "",
+                dataSource: [
+                    { time: "00:00", info: 10, warning: 5, error: 2, success: 20 },
+                    { time: "01:00", info: 15, warning: 8, error: 5, success: 25 },
+                    { time: "02:00", info: 20, warning: 6, error: 7, success: 22 },
+                    { time: "03:00", info: 18, warning: 9, error: 3, success: 30 },
+                    { time: "04:00", info: 25, warning: 10, error: 6, success: 35 },
+                    { time: "05:00", info: 30, warning: 12, error: 9, success: 40 }
+                ],
+                commonSeriesSettings: {
+                    type: "line",
+                    argumentField: "time"
+                },
+                series: [
+                    { valueField: "info", name: "Info", color: "#76CED9" },
+                    { valueField: "warning", name: "Warning", color: "#8590F3" },
+                    { valueField: "error", name: "Error", color: "#A93965" },
+                    { valueField: "success", name: "Success", color: "#0A9C9C" }
+                ],
+                legend: {
+                    visible: true,
+                    horizontalAlignment: "center",
+                    verticalAlignment: "bottom"
+                },
+                tooltip: {
+                    enabled: true
+                }
+            });
+
+            $("#deviceChart1").dxChart({
+                palette: ["#76CED9", "#8590F3", "#0A9C9C", "#51E0A0"], // Custom colors
+                dataSource: [
+                    { category: "A", value: 40 },
+                    { category: "B", value: 30 },
+                    { category: "C", value: 20 },
+                    { category: "D", value: 50 }
+                ],
+                commonSeriesSettings: {
+                    type: "bar",
+                    argumentField: "category"
+                },
+                series: [{
+                    valueField: "value",
+                    name: "Value"
+                }],
+                legend: {
+                    visible: false
+                },
+                tooltip: {
+                    enabled: true
+                }
+            });
+        });
+    </script>
+</body>
+</html>

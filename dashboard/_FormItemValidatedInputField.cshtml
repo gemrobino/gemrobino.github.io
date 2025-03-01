@@ -1,0 +1,9 @@
+﻿@model FormItemValidatedInputFieldModel
+
+<div class="form-item" style="margin: 0rem 0.7rem;">
+    <label style="margin-top:0.7rem;"for="@Model.Name">@Model.Label</label>
+    <input type="number" class="form-control" id="@Model.Name" name="@Model.Name"
+           value="@(Model.Value ?? 6)" min="@Model.Min" max="@Model.Max" @(Model.IsRequired ? "required" : "") title="@Model.Title">
+    <div class="invalid-feedback">@Model.InvalidFeedback</div>
+</div>
+

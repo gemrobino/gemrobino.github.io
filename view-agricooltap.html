@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Gem's Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Meddon&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="./style.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            display: flex;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+        .left {
+            width: 50%;
+            display: flex;
+            height: 100%;
+            align-items: center;
+            justify-content: center;
+            background-color: #f0f0f0;
+            border-right: 2px solid #ccc;
+        }
+        iframe {
+            width: 90%;
+            height: 90%;
+            border: none;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .right {
+            width: 50%;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        h1 {
+            margin-bottom: 10px;
+        }
+        p {
+            font-size: 18px;
+            line-height: 1.5;
+        }
+    </style>
+  </head>
+  <body class="bg-color-dark txt-dark">
+    
+    <div class="right txt-dark">
+      <div class="columns">
+        <div class="column">
+          <a href="./index.html" class="button txt-dark"><i class="bi bi-arrow-left-circle-fill"></i>&nbsp;Back</a>
+        </div>
+        <div class="column"></div>
+        <div class="column"></div>
+        <div class="column"></div>
+      </div>
+      <div class="card txt-dark">
+        <div style="text-align: right;">
+           <code>scroll through the page on the right ➡️</code>
+        </div>
+        <div class="card-content">
+          <div class="media">
+            <div class="media-content">
+              <p class="title is-4 txt-dark">About this Project</p>
+            </div>
+          </div>
+
+          <div class="content">
+            This project was submitted as our entry for the <a href="https://www.aseanfoundation.org/futurereadyasean">2019 ASEAN FutureReady UI/UX Competition</a>. This was chosen out of thousands of other submissions and allowed our team to compete.
+            <br />
+            We were able to secure 2nd Runner up.
+            <br />
+            <time datetime="2019-11-11">November 2019</time>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+    <div class="left">
+        <iframe src="futureready/index.html"></iframe>
+    </div>
+
+
+  </body>
+</html>

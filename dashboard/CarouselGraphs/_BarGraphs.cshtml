@@ -1,0 +1,52 @@
+@using TitanAndroidHub.Views.Helpers
+@model CarouselModel
+
+@{
+    string firstItemActive = "active";
+    var emptyData = new[] { new { Argument = "None", Value = 0 } };
+}
+
+
+<div id="@Model.CarouselId" class="carousel carousel-dark slide" data-bs-ride="false" data-bs-interval="false" data-interval="false">
+    <div class="carousel-inner">
+        @foreach (var item in Model.GraphData)
+        {
+            @if (item.Datasource.Any())
+            {
+                <div class="carousel-item @firstItemActive">
+                    <div class="d-block w-100">
+                        <div style="padding-left:5rem;padding-right:5rem;">
+                            @ChartHelper.ApplyBarChartStyle(Html.DevExtreme().Chart()
+                                     .DataSource(item.Datasource),
+                                     item.GraphId, item.Title, item.ArgumentFieldname, item.ValueFieldname, item.rotateXLabel)
+                        </div>
+                    </div>
+                </div>
+            }
+            @if (!item.Datasource.Any() && !string.IsNullOrEmpty(firstItemActive))
+            {
+                <div class="carousel-item @firstItemActive">
+                    <div class="d-block w-100">
+                        <div style="padding-left:5rem;padding-right:5rem;">
+                            @ChartHelper.ApplyBarChartStyle(Html.DevExtreme().Chart()
+                                     .DataSource(emptyData),
+                                     item.GraphId, "No Available Data", "Argument", "Value")
+                        </div>
+                    </div>
+                </div>
+            }
+            firstItemActive = "";
+        }
+    </div>
+    @if (Model.showCarouselArrows)
+    {
+        <button id="@Model.CarouselId-CarouselPrev" class="carousel-control-prev" type="button" data-bs-target="#@Model.CarouselId" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button id="@Model.CarouselId-CarouselNext" class="carousel-control-next" type="button" data-bs-target="#@Model.CarouselId" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    }
+</div>

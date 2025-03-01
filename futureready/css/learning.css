@@ -1,0 +1,203 @@
+#learning {
+	background: #E5EFC1;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.learning--body {
+	margin-top: 11vw;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.learning--sidebar {
+	margin-top: -4vw;
+	background: #557B83;
+	width: 15vw;
+	padding-top: 6.5vw;
+}
+
+.learning--sidebar-item {
+	background: #A2D5AB;
+	color: #5B5151;
+	padding: 1vw;
+	font-size: 1.5vw;
+	border: 0.01vw solid #557B83;
+}
+
+.learning--sidebar-item-active {
+	background: #5B5151;
+	color: #A2D5AB;
+}
+
+.learning--sidebar-item:hover {
+	background: #FFFCEB;
+	color: #39AEA9;
+}
+
+.learning--content {
+	margin: 1vw 4vw 4vw 4vw;
+	width: 100%;
+}
+
+.learning--section {
+	text-align: left;
+	padding: 2vw;
+	margin-top: 1.5vw;
+}
+
+.learning--section-title {
+	font-family: 'PTSans';
+	font-size: 2.5vw;
+}
+
+.learning--section-imageholder {
+	width: 100%;
+	text-align: center;
+	margin-top: 1vw;
+}
+
+.learning--section-image {
+	width: auto;
+	height: 17vw;
+}
+
+.learning--section-content {
+	font-family: 'Montserrat';
+	margin-top: 1vw;
+	font-size: 1.9vw;
+}
+
+.learning--section-content-list {
+	margin-top: 2vw;
+	color: #39AEA9;
+	font-size: 1.9vw;
+}
+
+.learning--section-content-list-item {
+	margin: 1vw;
+}
+
+
+.learning--section-content-list-item:hover {
+	color: #5B5151;
+}
+
+.learning--section-content-caption {
+	font-size: 1.6vw;
+	color: #5B5151;
+	margin-top: 2vw;
+}
+
+.learning--section-content-caption a {
+	font-weight: bold;
+    text-decoration: underline;
+}
+
+.learning--section-content-caption a:hover {
+	color: rgb(140, 129, 129);
+}
+
+.learning--scheme-one {
+	background: #FFFCEB;
+}
+
+.learning--scheme-one-title {
+	color: #39AEA9;
+}
+
+.learning--scheme-one-content {
+	color: #5B5151;
+}
+
+.learning--scheme-two {
+	background: #69B4B1;
+}
+
+.learning--scheme-two-title {
+	color: #FFFCEB;
+}
+
+.learning--scheme-two-content {
+	color: #5B5151;
+}
+
+.institution-item {
+	padding: 0.5vw 1vw 0.5vw 1vw;
+	margin: 1vw;
+	background: #A2D5AB;
+	border-radius: 3vw;
+	font-size: 1.5vw;
+	font-weight: bold;
+	width: auto;
+	color: #557B83;
+	text-align: left;
+}
+
+.institution-item a:hover {
+	color: #FFFCEB;
+}
+
+.institutions .learning--section-content {
+	color: #FFFCEB;
+}
+
+.ministry-content {
+	background: #5B5151;
+	color: #ffffff;
+}
+
+.ministry-content--wrapper {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+.ministry-item {
+	color: #E5EFC1;
+	font-size: 0.8vw;
+	padding: 1.5vw;
+	margin: 0.8vw;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	font-weight: bold;
+}
+
+.ministry-item--logo {
+	width: auto;
+	height: 8.5vw;
+}
+
+.ministry-item--name {
+	padding: 0.5vw 1vw 0.5vw 1vw;
+	margin: 1vw;
+	background: #557B83;
+	border-radius: 3vw;
+	font-size: 1.5vw;
+}
+
+.ministry-item--name:hover {
+	background: #FFFCEB;
+	color: #39AEA9;
+}
+
+/* For youtube embed from https://embedresponsively.com/ */
+.embed-container {
+	position: relative;
+	padding-bottom: 56.25%;
+	height: 0; overflow: 
+	hidden; max-width: 100%;
+} 
+
+.embed-container iframe, .embed-container object, .embed-container embed {
+	position: absolute; 
+	top: 0; 
+	left: 0; 
+	width: 100%; 
+	height: 100%;
+}

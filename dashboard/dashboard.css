@@ -1,0 +1,66 @@
+<style>
+    th, td {
+        border: none !important;
+    }
+
+    .btn {
+        border-radius: 1.5rem;
+    }
+
+    .summary-visuals {
+        display: flex;
+        flex-direction: row;
+        vertical-align: middle;
+    }
+
+    .summary-visuals--textbox {
+        display: flex;
+        flex-direction: column;
+        margin-left: 1rem;            
+        color: var(--text-color);
+    }
+
+    #dashboardIcon-Battery:hover,
+    #dashboardIcon-Shield:hover {
+        opacity: 75%;
+    }
+
+    .jumbotron {
+        margin-top: 0px
+    }
+
+    #divBodyContainer {
+        max-width: 100%;
+    }
+
+    #dashboardContainer {
+        max-width: 100%;
+    }
+
+    .policylist-row {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap:wrap;
+        flex-direction:row;
+        overflow-wrap: anywhere;
+    }
+    svg {
+        overflow: visible !important;
+    }
+        
+    .dxc-title text {
+        font-family: 'Open Sans', sans-serif !important;
+        font-weight: normal !important;
+        fill: #212529 !important;
+    }
+        
+    .summary-visuals-tile:hover {
+        transform: scale(1.05); 
+    }
+    .summary-visuals-tile {
+        transition: transform 0.2s ease-in-out;
+    }
+    strong {
+        color:var(--tile-main-color);
+    }
+</style>

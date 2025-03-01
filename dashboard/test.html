@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevExtreme Pie Chart</title>
+
+    <!-- Load jQuery FIRST -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- DevExtreme CSS -->
+    <link rel="stylesheet" href="https://cdn3.devexpress.com/jslib/23.1/css/dx.light.css">
+
+    <!-- DevExtreme JS (Ensure it's after jQuery) -->
+    <script type="text/javascript" src="https://cdn3.devexpress.com/jslib/24.2.5/js/dx.all.js"></script>
+    <!-- <script type="text/javascript" src="https://cdn3.devexpress.com/jslib/24.2.5/js/dx.web.js"></script> -->
+    <!-- <script type="text/javascript" src="https://cdn3.devexpress.com/jslib/24.2.5/js/dx.viz.js"></script> -->
+
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            
+            background-color: #f4f4f4;
+        }
+        #chartContainer {
+            width: 50%;
+            height: 400px;
+            background: white;
+            padding: 20px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+        }
+
+        #lineChartContainer {
+            width: 80%;
+            height: 400px;
+            background: white;
+            padding: 20px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+  <div id="lineChartContainer"></div>
+  <hr />
+  <br />
+
+    <div id="chartContainer1"></div>
+    <div id="chartContainer2"></div>
+    <div id="chartContainer3"></div>
+    <div id="chartContainer4"></div>
+
+    <script>
+        function createPieChart(containerId) {
+            let chartType = containerId=="chartContainer1" ? "" : "doughnut";
+            $("#" + containerId).dxPieChart({
+                type: chartType,
+                palette: ["#76CED9", "#8590F3", "#0A9C9C", "#51E0A0"], // Custom colors
+                innerRadius: 0.7,
+                dataSource: [
+                    { category: "Apple", value: 40 },
+                    { category: "Samsung", value: 30 },
+                    { category: "Huawei", value: 15 },
+                    { category: "Other", value: 5 }
+                ],
+                series: [{
+                    argumentField: "category",
+                    valueField: "value",
+                    label: { visible: false }
+                }],
+                legend: {
+                    visible: true,
+                    horizontalAlignment: "center",
+                    verticalAlignment: "bottom"
+                }
+            });
+        }
+
+        $(document).ready(function() {
+            let chartIds = ["chartContainer1", "chartContainer2", "chartContainer3", "chartContainer4"];
+            chartIds.forEach(createPieChart); // Reuse the function for all charts
+
+
+            $("#lineChartContainer").dxChart({
+                title: "",
+                dataSource: [
+                    { time: "00:00", info: 10, warning: 5, error: 2, success: 20 },
+                    { time: "01:00", info: 15, warning: 8, error: 5, success: 25 },
+                    { time: "02:00", info: 20, warning: 6, error: 7, success: 22 },
+                    { time: "03:00", info: 18, warning: 9, error: 3, success: 30 },
+                    { time: "04:00", info: 25, warning: 10, error: 6, success: 35 },
+                    { time: "05:00", info: 30, warning: 12, error: 9, success: 40 }
+                ],
+                commonSeriesSettings: {
+                    type: "line",
+                    argumentField: "time"
+                },
+                series: [
+                    { valueField: "info", name: "Info", color: "#76CED9" },
+                    { valueField: "warning", name: "Warning", color: "#8590F3" },
+                    { valueField: "error", name: "Error", color: "#A93965" },
+                    { valueField: "success", name: "Success", color: "#51E0A0" }
+                ],
+                legend: {
+                    visible: true,
+                    horizontalAlignment: "center",
+                    verticalAlignment: "bottom"
+                },
+                tooltip: {
+                    enabled: true
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

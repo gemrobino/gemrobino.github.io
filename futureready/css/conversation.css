@@ -1,0 +1,48 @@
+#conversation {
+	background: #E5EFC1;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+	overflow: auto;
+}
+
+.conversation--body {
+	margin: 10vw 4vw 4vw 4vw;
+}
+
+.conversation--section {
+	text-align: center;
+	padding: 3vw;
+	margin-top: 1vw;
+	background: #FFFCEB;
+}
+
+.conversation--section-imageholder {
+	text-align: center;
+	margin: 2vw;
+}
+
+.conversation--section-image {
+	width: auto;
+	height: 7vw;
+}
+
+.conversation--section-title {
+	font-family: 'PTSans';
+	font-size: 3vw;
+	color: #39AEA9;
+}
+
+.conversation--section-content {
+	font-family: 'Montserrat';
+	margin-top: 1vw;
+	font-size: 2vw;
+	color: #5B5151;
+}
+
+.conversation--section-content-highlight {
+	font-family: 'PTSans';
+	margin: 2vw 0vw 3vw 0vw;
+	color: #45ADA8;
+	font-size: 2.5vw;
+}

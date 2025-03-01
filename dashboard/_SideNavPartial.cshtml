@@ -1,0 +1,147 @@
+﻿
+<style>
+    .sidebar {
+        height: 100%;
+        width: 50px;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        background-color: var(--tile-body-color);
+        overflow-x: hidden;
+        transition: 0.5s;
+        padding-top: 2rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .sidebar-icon {
+        color: #0C8282;
+        font-weight: bold;
+        font-size: 2rem;
+    }
+
+    .sidebar a {
+      text-decoration: none;
+      color: var(--tile-main-color);
+      display: block;
+      transition: 0.3s;
+    }
+
+    .sidebar a:hover {
+      color: #f1f1f1;
+    }
+
+    .sidebar .closebtn {
+      position: absolute;
+      top: 0;
+      right: 25px;
+      font-size: 36px;
+      margin-left: 50px;
+    }
+
+    .openbtn {
+      font-size: 20px;
+      cursor: pointer;
+      background-color: #111;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+    }
+
+    .openbtn:hover {
+      color: #000;
+    }
+
+    .icon-container {
+        margin-top: 1.5rem;
+        text-align: center;
+    }
+
+
+    #mainBodyContainer {
+      transition: margin-left .5s;
+    }
+
+    /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+    @@media screen and (max-height: 450px) {
+      .sidebar {padding-top: 15px;}
+      .sidebar a {font-size: 18px;}
+    }
+</style>
+
+<div id="mySidebar" class="sidebar">
+    <div>
+        <br />
+        <a id="sideIcon-Home" class="icon-container" asp-area="" asp-controller="Dashboard" asp-action="Index"><i class="sidebar-icon bi bi-house"></i></a>
+        @(Html.DevExtreme().Tooltip()
+            .Target("#sideIcon-Home").ShowEvent("mouseenter").HideEvent("mouseleave")
+            .ContentTemplate("Home"))
+        <a id="sideIcon-Devices" class="icon-container" asp-area="" asp-controller="Device" asp-action="Index"><i class="sidebar-icon bi bi-phone"></i></a>
+        @(Html.DevExtreme().Tooltip()
+            .Target("#sideIcon-Devices").ShowEvent("mouseenter").HideEvent("mouseleave")
+            .ContentTemplate("Devices"))
+        <a id="sideIcon-Groups" class="icon-container" asp-area="" asp-controller="Group" asp-action="Index"><i class="sidebar-icon bi bi-folder2-open"></i></a>
+        @(Html.DevExtreme().Tooltip()
+            .Target("#sideIcon-Groups").ShowEvent("mouseenter").HideEvent("mouseleave")
+            .ContentTemplate("Groups"))
+        <a id="sideIcon-Locations" class="icon-container" asp-area="" asp-controller="Location" asp-action="Index"><i class="sidebar-icon bi bi-geo-alt"></i></a>
+        @(Html.DevExtreme().Tooltip()
+            .Target("#sideIcon-Locations").ShowEvent("mouseenter").HideEvent("mouseleave")
+            .ContentTemplate("Device Tracker"))
+
+        <a id="sideIcon-EventLogs" class="icon-container" asp-area="" asp-controller="EventLog" asp-action="Index"><i class="sidebar-icon bi bi-clock-history"></i></a>
+        @(Html.DevExtreme().Tooltip()
+            .Target("#sideIcon-EventLogs").ShowEvent("mouseenter").HideEvent("mouseleave")
+            .ContentTemplate("Event Logs"))
+        <a id="sideIcon-Geofence" class="icon-container" asp-area="" asp-controller="Geofence" asp-action="Index"><i class="sidebar-icon bi bi-globe-americas"></i></a>
+        @(Html.DevExtreme().Tooltip()
+            .Target("#sideIcon-Geofence").ShowEvent("mouseenter").HideEvent("mouseleave")
+            .ContentTemplate("Geofence"))
+    </div>
+    <div>
+        <a id="sideIcon-Setting" class="icon-container" asp-area="" asp-controller="Setting" asp-action="Index"><i class="sidebar-icon bi bi-gear"></i></a>
+        @(Html.DevExtreme().Tooltip()
+            .Target("#sideIcon-Setting").ShowEvent("mouseenter").HideEvent("mouseleave")
+            .ContentTemplate("Settings"))
+
+    </div>
+</div>
+
+
+<script>
+    function isMobileDevice() {
+        return /Mobi|Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(navigator.userAgent);
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        if (isMobileDevice()) {
+            console.log('User is on a mobile device');
+            closeNav();
+        }
+    });
+
+    function openNav() {
+        document.getElementById("mySidebar").style.width = "50px";
+        document.getElementById("mainBodyContainer").style.marginLeft = "50px";
+    }
+
+    function closeNav() {
+        document.getElementById("mySidebar").style.width = "0px";
+        document.getElementById("mainBodyContainer").style.marginLeft = "0px";
+    }
+
+    function toggleSideBar() {
+        let collapsedClass = 'collapsedSideBar';
+        let sidebar = document.getElementById("mySidebar");
+        if (sidebar.classList.contains(collapsedClass)) {
+            sidebar.classList.remove(collapsedClass);
+            openNav();
+        }
+        else {
+            sidebar.classList.add(collapsedClass);
+            closeNav();
+        }
+    }
+</script>

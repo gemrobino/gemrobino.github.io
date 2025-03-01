@@ -1,0 +1,101 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .form-field {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+        .form-field label,
+        .form-field input,
+        .form-field .radio-group {
+            flex: 1 1 100%;
+            text-align: left; /* Left align text for smaller screens */
+        }
+}
+
+/* Hide certain columns on smaller screens */
+@media (max-width: 768px) {
+    .table-responsive-sm th:nth-child(n+4),
+    .table-responsive-sm td:nth-child(n+4) {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    #groupIcon {
+        width: 90px;
+        height: 90px;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    /* Styles for screens with a minimum width of 768 pixels */
+    .form-group {
+        display: flex;
+        flex-wrap: wrap;
+        margin-bottom: 15px;
+    }
+
+    .form-group > div {
+        flex-basis: 50%; /* Each form group takes 50% width on larger screens */
+        box-sizing: border-box;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center; /* Center-align label and input vertically */
+    }
+
+    label {
+        flex-basis: 50%; /* Adjust the width of label within the form group */
+        text-align: right;
+        margin-right: 10px;
+    }
+
+    input {
+        flex-basis: 50%; /* Adjust the width of input within the form group */
+        width: 100%;
+        padding: 8px;
+        box-sizing: border-box;
+    }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+/* CSS Animation for flashing border */
+@keyframes flash {
+    0% {
+        border-color: red;
+    }
+
+    50% {
+        border-color: transparent;
+    }
+
+    100% {
+        border-color: red;
+    }
+}
+
+.flashing-border {
+    animation: flash 1s infinite; /* Flashing animation */
+}

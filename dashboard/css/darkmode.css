@@ -1,0 +1,297 @@
+/*
+  Dark Mode Styles
+*/
+:root {
+    --darkmode-light-tile: #ffffff1f;
+    --darkmode-transparent-tile: #ffffff00;
+    --dark-bg-color: #222f30;
+    --dark-input-bg: #294245;
+    --dark-input-label: #435a5c;
+}
+
+.dark-mode {
+    background: var(--dark-bg-color);
+    color: white;
+}
+
+.dark-mode .table{
+    color: white;
+    --bs-table-bg: var(--darkmode-transparent-tile);
+}
+
+.dark-mode-container {
+    background: var(--palette-color5);
+    color: white;
+}
+
+.dark-mode h1, .dark-mode h2, 
+.dark-mode h4, .dark-mode h5, 
+.dark-mode h6, .dark-mode li,
+.dark-mode .text, .dark-mode span {
+    fill: white !important;
+    color: white !important;
+}
+
+.dark-mode strong, .dark-mode .tile-header,
+.dark-mode .txt--tile  {
+    color: var(--secondary-color);
+}
+
+.dark-mode a {
+    color: var(--palette-color6);
+}
+
+.dark-mode a:has(> p) p {
+    color: var(--palette-color6); /* Reset color or set it to the desired color */
+}
+.dark-mode p {
+    color: white;
+} 
+
+.dark-mode .dxc-title text,
+.dark-mode .dxc-arg-elements text, 
+.dark-mode .dxc-item text,
+.dark-mode .dxc-val-elements text,
+.dark-mode .dark-title,
+.dark-mode .dx-widget {
+    fill: white !important;
+    color: white !important;
+}
+
+.dark-mode .form-select,
+.dark-mode input.form-control,
+.dark-mode .form-item input[type=number] {
+    background-color: var(--dark-input-bg);
+    color:white;
+}
+
+.dark-mode input:-internal-autofill-selected {
+    background-color: var(--dark-input-bg);
+}
+
+.dark-mode input {
+    color-scheme: dark;
+}
+
+
+.dark-mode .table {
+    --bs-table-bg: var(--palette-color5) !important;
+}
+
+/* DevExtreme and Bootstrap Overrides */
+
+.dark-mode .dx-checkbox-checked .dx-checkbox-icon {
+    color: var(--palette-color4) !important;
+}
+
+.dark-mode .nav-tabs{
+    border-bottom: var(--bs-nav-tabs-border-width) solid var(--palette-color5);
+}
+
+.dark-mode .nav-tabs .nav-item.show .nav-link,
+.dark-mode .nav-tabs .nav-link.active {
+    color: white;
+    background-color: var(--darkmode-light-tile);
+    border-color: var(--darkmode-light-tile);
+}
+
+.dark-mode .list-group-item,
+.dark-mode .dx-datagrid-header-panel,
+.dark-mode .dx-card, .dark-mode .dx-pager{
+    background-color: var(--darkmode-transparent-tile);
+}
+
+.dark-mode .dx-editor-cell .dx-texteditor, .dark-mode .dx-editor-cell .dx-texteditor .dx-texteditor-input 
+{
+    background-color: var(--darkmode-transparent-tile);
+    color:white;
+}
+
+.dark-mode .dx-treelist-container>.dx-treelist-headers, .dark-mode .dx-treelist-container>.dx-treelist-rowsview,
+.dark-mode .bg-white,
+.dark-mode .dx-datagrid>.dx-datagrid-headers, .dark-mode .dx-datagrid>.dx-datagrid-rowsview, .dark-mode .dx-datagrid>.dx-datagrid-total-footer,
+.dark-mode .dx-datagrid>.dx-datagrid-headers, .dark-mode .dx-datagrid>.dx-datagrid-rowsview, .dark-mode .dx-datagrid>.dx-datagrid-total-footer 
+{
+    /* Do not remove duplicate classes */ 
+    background-color: var(--darkmode-light-tile) !important;
+}
+.dark-mode .modal-content {
+    background-color: var(--palette-color7) !important;
+}
+.dark-mode table>:not(caption)>*>* {
+    color: white !important;
+}
+
+.dark-mode .text-body-tertiary {
+    color: var(--bs-dark-border-subtle) !important;
+}
+
+.dark-mode .dx-overlay-content.dx-popup-normal {
+    background: var(--palette-color7) !important;
+    color: white !important;
+}
+
+.dark-mode .dx-button-mode-outlined .dx-icon,
+.dark-mode small {
+    color: var(--bs-secondary-bg-subtle);
+}
+.dark-mode .accordion {
+    --bs-accordion-bg: var(--darkmode-light-tile);
+    --bs-accordion-active-bg: var(--primary-btn-color);
+}
+
+.dark-mode .card {
+    background-color: var(--darkmode-light-tile);
+}
+
+.dark-mode .btn-light {
+    --bs-btn-color: #000;
+    --bs-btn-bg: #b1b1b1;
+    --bs-btn-border-color: #afafaf;
+}
+
+.dark-mode .form-floating>.form-select,
+.dark-mode .form-floating>.form-control-plaintext:focus,
+.dark-mode .form-floating>.form-control-plaintext:not(:placeholder-shown), 
+.dark-mode .form-floating>.form-control:focus,
+.dark-mode .form-floating>.form-control:not(:placeholder-shown) {
+    background: var(--dark-input-bg);
+    color: white;
+}
+
+.dark-mode .form-floating>.form-control-plaintext~label::after,
+.dark-mode .form-floating>.form-control:focus~label::after,
+.dark-mode .form-floating>.form-control:not(:placeholder-shown)~label::after,
+.dark-mode .form-floating>.form-select~label::after {
+    background-color: var(--dark-input-label);
+}
+
+.dark-mode .form-floating>.form-control-plaintext~label, 
+.dark-mode .form-floating>.form-control:focus~label, 
+.dark-mode .form-floating>.form-control:not(:placeholder-shown)~label, 
+.dark-mode .form-floating>.form-select~label {
+    color: white;
+}
+
+.dark-mode .dx-datagrid-rowsview .dx-selection.dx-row:not(.dx-row-focused):hover>td,
+.dark-mode .dx-datagrid-rowsview .dx-selection.dx-row:not(.dx-row-focused):hover>tr>td,
+.dark-mode .dx-datagrid-rowsview .dx-selection.dx-row:not(.dx-row-focused)>td,
+.dark-mode .dx-datagrid-rowsview .dx-selection.dx-row:not(.dx-row-focused)>tr>td {
+    background-color: var(--bs-gray-600);
+}
+
+.dark-mode input:-webkit-autofill,
+.dark-mode input:-webkit-autofill:focus {
+    transition: background-color 0s 600000s, color 0s 600000s !important;
+}
+
+.dark-mode .dx-datagrid-rowsview .dx-master-detail-row:not(.dx-datagrid-edit-form) .dx-master-detail-cell
+{
+    background-color: var(--dark-input-label);
+}
+
+.dark-mode .dx-dropdowneditor-icon,
+.dark-mode .dx-datagrid-container.dx-filter-menu .dx-menu-item-has-icon .dx-icon,
+.dark-mode .dx-datagrid.dx-filter-menu .dx-menu-item-has-icon .dx-icon {
+    color: white;
+}
+
+/* Component-Specific Style*/
+
+.dark-mode .form-control {
+    color: white;
+    background-color: var(--dark-input-bg);
+}
+
+.dark-mode .input-group-text {
+    background-color: #6b8083;
+}
+
+.dark-mode .footer-border {
+    border-top: 2px white solid;
+}
+.dark-mode .footer-icon {
+    color: white;
+}
+
+.dark-mode .kiosk-card {
+    background-color: var(--primary-color);
+}
+
+.dark-mode .popup-form-notification {
+    background-color: var(--bs-gray-600);
+}
+
+.dark-mode .jumbotron {
+    background: var(--palette-color5);
+    color: white;
+}
+
+.dark-mode .txt--tile {
+    color: white !important;
+}
+
+.dark-mode .bg--tile {
+    background: var(--darkmode-light-tile);
+}
+
+.dark-mode .custom-modal-content {
+    background-color: var(--palette-color5);
+}
+
+.dark-mode .btn-style--secondary {
+    border-color: var(--secondary-color);
+    color: var(--secondary-color);
+    border-width: 1.5px;
+}
+
+.dark-mode .btn-style--secondary:hover {
+    background: var(--secondary-color);
+    color: white;
+}
+.dark-mode .btn-style--primary {
+    background: var(--primary-btn-color);
+    color: white;
+}
+
+.dark-mode .btn-style--primary:hover {
+    background: var(--primary-btn-hover-color);
+    color: white;
+}
+
+.dark-mode .highlighted-row {
+    background-color: #e6f2ff59 !important;
+}
+
+.dark-mode #mySidebar {
+    background-color: var(--palette-color5);
+}
+
+.dark-mode .sidebar-icon {
+    color: var(--secondary-color);
+}
+.dark-mode .detail-fieldname {
+    color: var(--palette-color1);
+} 
+
+.dark-mode #wifiConfigContainer small {
+    color: var(--tile-fade-70) !important;
+}
+
+.dark-mode .form-control:disabled {
+    color: var(--tile-fade-70);
+}
+
+/* Swal Overrides */
+.dark-mode div:where(.swal2-container).swal2-center>.swal2-popup,
+.dark-mode .swal2-html-container {
+    background: var(--palette-color7);
+    color: white;
+}
+
+.dark-mode .swal2-success-circular-line-left,
+.dark-mode .swal2-success-fix,
+.dark-mode .swal2-success-circular-line-right,
+.dark-mode .swal2-popup.swal2-toast.swal2-show  {
+    background: var(--palette-color7) !important;
+}

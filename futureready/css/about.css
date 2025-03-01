@@ -1,0 +1,76 @@
+#about {
+	background: #E5EFC1;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.about--content--title {
+	font-family: 'PTSans';
+	font-size: 3.3vw;
+	text-align: center;
+	margin-bottom: 2.2vw;
+}
+
+.about--content--text {
+	font-family: 'Montserrat';
+	font-size: 1.7vw;
+	text-align: center;
+	color: #5B5151;
+	max-width: 790px;
+	margin: 0 auto;
+	padding-left: 2vw;
+}
+
+.about--content--text a {
+	color: rgb(169, 68, 50);
+}
+
+.about--content--text a:hover {
+	color: rgb(179, 144, 144);
+}
+
+.about--subcontent {
+	text-align: center;
+	padding: 2vw 2vw 4vw 0vw;
+	background: #FFFCEB;
+	color: #39AEA9;
+}
+
+.about--intro {
+	padding-top: 14vw;
+}
+
+.about--content-bannerimageholder {
+	text-align: center;
+	margin-bottom: 2.5vw;
+}
+
+.about--content-bannerimage {
+	width: 100vw;
+	height: 25vw;
+	object-fit: cover;
+}
+
+.about--content-caption {
+	color: #999999;
+	font-size: 1vw;
+	margin-top: 0.5vw;
+}
+
+.about--subcontent-why {
+	background: #FFFFFF;
+	color: #39AEA9;
+	padding-bottom: 6vw;
+}
+
+.about--content-imageholder {
+	text-align: center;
+	margin: 2vw;
+}
+
+.about--content-image {
+	width: 55vw;
+	height: auto;
+}

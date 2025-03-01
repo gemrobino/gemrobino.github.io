@@ -1,0 +1,25 @@
+﻿@model FormItemDropdownModel
+
+<div class="form-item form-item--dropdown" style="margin: 0rem 0.7rem; position: relative;">
+    <label for="@Model.Id">@Model.Label</label>
+    <div style="position: relative;">
+        <select class="form-control" name="@Model.Name" id="@Model.Id" style="appearance: none; -webkit-appearance: none; -moz-appearance: none; padding-right: 2rem;">
+            @foreach (var option in Model.Options)
+            {
+                if (option.IsDisplayed)
+                {
+                    if (option.Value == Model.SelectedValue)
+                    {
+                        <option value="@option.Value" selected title="@option.Hint">@option.Text</option>
+                    }
+                    else
+                    {
+                        <option value="@option.Value" title="@option.Hint">@option.Text</option>
+                    }
+                }
+            }
+        </select>
+        <i class="bi bi-caret-down-fill" style="position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%); pointer-events: none;"></i>
+    </div>
+</div>
+
